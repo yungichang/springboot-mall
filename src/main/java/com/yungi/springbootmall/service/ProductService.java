@@ -1,5 +1,6 @@
 package com.yungi.springbootmall.service;
 
+import com.yungi.springbootmall.dto.ProductQueryParams;
 import com.yungi.springbootmall.dto.ProductRequest;
 import com.yungi.springbootmall.model.Product;
 
@@ -15,5 +16,5 @@ public interface ProductService {
 
     void deleteProduct(Integer productId);
 
-    List<Product> getProducts();
+    List<Product> getProducts(ProductQueryParams productQueryParams);
 }

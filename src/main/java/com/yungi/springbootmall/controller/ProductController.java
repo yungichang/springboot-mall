@@ -1,5 +1,7 @@
 package com.yungi.springbootmall.controller;
 
+import com.yungi.springbootmall.constant.ProductCategory;
+import com.yungi.springbootmall.dto.ProductQueryParams;
 import com.yungi.springbootmall.dto.ProductRequest;
 import com.yungi.springbootmall.model.Product;
 import com.yungi.springbootmall.service.ProductService;
@@ -20,8 +22,21 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getProducts(){
-        List<Product> productList = productService.getProducts();
+    public ResponseEntity<List<Product>> getProducts(
+            //查詢條件filtering
+            @RequestParam(required = false) ProductCategory category,
+            @RequestParam(required = false) String search,
+            //排序 sorting
+            @RequestParam(defaultValue = "create_date") String orderBy,
+            @RequestParam(defaultValue = "desc") String sort
+
+    ){
+        ProductQueryParams productQueryParams = new ProductQueryParams();
+        productQueryParams.setSearch(search);
+        productQueryParams.setCategory(category);
+        productQueryParams.setOrderBy(orderBy);
+        productQueryParams.setSort(sort);
+        List<Product> productList = productService.getProducts(productQueryParams);
         return ResponseEntity.status(HttpStatus.OK).body(productList);
     }
 

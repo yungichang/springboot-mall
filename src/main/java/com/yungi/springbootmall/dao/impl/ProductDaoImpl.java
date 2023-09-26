@@ -1,6 +1,7 @@
 package com.yungi.springbootmall.dao.impl;
 
 import com.yungi.springbootmall.dao.ProductDao;
+import com.yungi.springbootmall.dto.ProductQueryParams;
 import com.yungi.springbootmall.dto.ProductRequest;
 import com.yungi.springbootmall.model.Product;
 import com.yungi.springbootmall.rowmapper.ProductRowMapper;
@@ -19,11 +20,22 @@ public class ProductDaoImpl implements ProductDao {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Override
-    public List<Product> getProducts() {
+    public List<Product> getProducts(ProductQueryParams productQueryParams) {
         String sql= "SELECT product_id,product_name, category, image_url, price, stock, description, " +
                 "created_date, last_modified_date " +
-                "FROM product ";
+                "FROM product WHERE 1=1 ";
         Map<String,Object> map = new HashMap<>();
+        if(productQueryParams.getSearch()!=null){
+            sql = sql+" AND product_name LIKE :search ";
+            map.put("search","%"+productQueryParams.getSearch()+"%");
+        }
+
+        if(productQueryParams.getCategory()!=null){
+            sql = sql + " AND category = :category ";
+            map.put("category",productQueryParams.getCategory().name());
+        }
+
+        sql = sql + " ORDER BY "+productQueryParams.getOrderBy()+ " "+productQueryParams.getSort();
         List<Product> productList = namedParameterJdbcTemplate.query(sql, map, new ProductRowMapper());
 
         return productList;

@@ -18,6 +18,7 @@ public class ProductRequest {
     private Integer stock;
     private String description;
 
+
     public String getProductName() {
         return productName;
     }

@@ -1,6 +1,7 @@
 package com.yungi.springbootmall.service.impl;
 
 import com.yungi.springbootmall.dao.ProductDao;
+import com.yungi.springbootmall.dto.ProductQueryParams;
 import com.yungi.springbootmall.dto.ProductRequest;
 import com.yungi.springbootmall.model.Product;
 import com.yungi.springbootmall.service.ProductService;
@@ -15,8 +16,8 @@ public class ProductServiceImpl implements ProductService {
     ProductDao productDao;
 
     @Override
-    public List<Product> getProducts() {
-        return productDao.getProducts();
+    public List<Product> getProducts(ProductQueryParams productQueryParams) {
+        return productDao.getProducts(productQueryParams);
     }
 
     @Override
